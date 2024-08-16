@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_crud
+      MYSQL_USER: user_crud
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - app-network
+
+  microsservicio_1:
+    build: ./MICROSERVICIO_1
+    container_name: microsservicio_1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  microsservicio_2:
+    build: ./MICROSERVICIO_2
+    container_name: microsservicio_2
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
