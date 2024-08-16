@@ -1,10 +1,9 @@
-import {  IsDecimal, IsInt, IsPositive, IsString, Min} from "class-validator";
+import { IsInt, IsOptional, IsPositive, IsString, Min } from "class-validator";
 
 export class CreateCamisaDto {
 
-    @IsInt()
-    @Min(100)  
-    idCliente: number;
+    @IsOptional()
+    idCliente?: number;
 
     @IsString()
     color: string;

@@ -1,14 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Headers } from '@nestjs/common';
 import { CamisasService } from './camisas.service';
 import { CreateCamisaDto } from './dto/create-camisa.dto';
 import { UpdateCamisaDto } from './dto/update-camisa.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('camisas')
 export class CamisasController {
-  constructor(private readonly camisasService: CamisasService) {}
+  constructor(private readonly camisasService: CamisasService,
+    private readonly jwtService: JwtService, 
+  ) {}
 
   @Post()
-  create(@Body() createCamisaDto: CreateCamisaDto) {
+  async create(@Body() createCamisaDto: CreateCamisaDto) {
+    const token = createCamisaDto.idCliente as unknown as string;
+    const secret = 'Sheylee y Asociados'; 
+
+
+    const payload = this.jwtService.verify(token, { secret });
+
+    const idCliente = Number(payload.sub);
+    if (!Number.isInteger(idCliente) || idCliente < 1) {
+      throw new Error('Invalid idCliente extracted from token');
+    }
+
+
+    createCamisaDto.idCliente = idCliente;
+
     return this.camisasService.create(createCamisaDto);
   }
 

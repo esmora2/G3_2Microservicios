@@ -9,8 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CamisasModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'mysql', // El nombre del servicio MySQL en docker-compose.yml
-      port: 3306,
+      host: 'localhost', // El nombre del servicio MySQL en docker-compose.yml
+      port: 3307,
       username: 'user_crud',
       password: 'root',
       database: 'db_crud',
