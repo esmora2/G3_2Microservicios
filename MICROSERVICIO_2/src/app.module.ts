@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [UsersModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'myqsl', // El nombre del servicio MySQL en docker-compose.yml
+      host: 'mysql', // El nombre del servicio MySQL en docker-compose.yml
       port: 3306,
       username: 'user_crud',
       password: 'root',
